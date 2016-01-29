@@ -2,13 +2,17 @@
 title: "HUMAN HEALTH AND ECONOMIC IMPACT ANALYSIS OF STORM EVENTS IN THE US"
 author: "Abimbola C."
 date: "January 12, 2016"
-output: html_document
+output: 
+        html_document:
+        keep_md: true
+        theme: united
+        highlight: tango
 ---
 
 ![alt text](img.jpg)
 
 ```{r global_options, include=FALSE}
-knitr::opts_chunk$set(fig.width=8, fig.height=4, fig.path='Figs/',                              warning=FALSE, message=FALSE, comment="")
+knitr::opts_chunk$set(fig.width=8, fig.height=4, fig.path='Figs/', warning=FALSE, message=FALSE, comment="")
 ```
 
 ###**SYNOPSIS**
@@ -52,7 +56,7 @@ summary(storm$year)
 The events recorded before 1995 are sparse. Therefore, we will subset our data at the first quartile, 1995, and select the features relevant to this anlaysis.
 ```{r subset, cache=TRUE}
 data <- storm%>%filter(year >= 1995)%>%
-        select(EVTYPE, year, STATE, INJURIES, FATALITIES, PROPDMGEXP, PROPDMG,                         CROPDMGEXP, CROPDMG)
+        select(EVTYPE, year, STATE, INJURIES, FATALITIES, PROPDMGEXP, PROPDMG, CROPDMGEXP, CROPDMG)
 ```
 From the data documentation provided in the links above, some event types are duplicates and refer to the same events. They will all be combined into the same and appropriate event type.
 ```{r combine_variables}
@@ -93,9 +97,8 @@ From the table above, the five most fatal events in an increasing order of sever
 g <- ggplot(fatalities%>%slice(1:10), aes(x=EVENT.TYPE, y=No.of.Fatalities, fill=EVENT.TYPE))
 g + geom_bar(width=0.3) + geom_bar(stat="identity", colour="black", show_guide=FALSE) +
         theme(legend.title=element_blank(), axis.ticks=element_blank(),
-              axis.text.x=element_blank(), panel.grid.minor.x=element_blank(),
-              panel.grid.major.x=element_blank()) +
-                 ggtitle("10 MOST FATAL WEATHER EVENTS IN THE US, 1996-2011") 
+              axis.text.x=element_blank(), panel.grid.minor.x=element_blank(), panel.grid.major.x=element_blank()) +
+        ggtitle("10 MOST FATAL WEATHER EVENTS IN THE US, 1996-2011") 
 ```
 
 ```{r injuries, results ="asis"}
@@ -111,9 +114,10 @@ TORNADO and EXCESSIVE HEAT are collectively responsible for 34% of all fatalitie
 ```{r injuries.plot}
 g <- ggplot(injuries%>%slice(1:10), aes(x=EVENT.TYPE, y=No.Injured, fill=EVENT.TYPE))
 g + geom_bar(width=0.3) + geom_bar(stat="identity", colour="black", show_guide=FALSE) +
-theme(legend.title=element_blank(), axis.ticks=element_blank(),axis.text.x=element_blank(), panel.grid.minor.x=element_blank(), panel.grid.major.x=element_blank()) + 
-xlab("Storm events") + ylab("Number of injuries") + 
-ggtitle("10 WEATHER EVENTS WITH THE MOST NON-FATAL INJURIES\n IN THE US,1996-2011") 
+        theme(legend.title=element_blank(), axis.ticks=element_blank(),axis.text.x=element_blank(), 
+                panel.grid.minor.x=element_blank(), panel.grid.major.x=element_blank()) + 
+        xlab("Storm events") + ylab("Number of injuries") + 
+        ggtitle("10 WEATHER EVENTS WITH THE MOST NON-FATAL INJURIES\n IN THE US,1996-2011") 
 ```
 
 ####*Economic Consequence*
@@ -161,9 +165,10 @@ The table above is the sum of the estimated value of crop and property lost to t
 
 ```{r damageplot}
 g <- ggplot(Damages%>%slice(1:10), aes(x=EVENT.TYPE, y=total.damage, fill=EVENT.TYPE))
-g + geom_bar(width=0.3) + geom_bar(stat="identity", colour="black", show_guide=FALSE) + theme(legend.title=element_blank(), axis.ticks=element_blank(), axis.text.x=element_blank(), panel.grid.minor.x=element_blank(), panel.grid.major.x=element_blank()) +
-xlab("STORM EVENTS") + ylab("TOTAL DAMAGE IN BILLIONS") +
-ggtitle("TOP 10 ECONOMIC LOSS OF WEATHER EVENTS IN THE\n US, 1996-2011") 
+g + geom_bar(width=0.3) + geom_bar(stat="identity", colour="black", show_guide=FALSE) +
+        theme(legend.title=element_blank(), axis.ticks=element_blank(), axis.text.x=element_blank(),                                                   panel.grid.minor.x=element_blank(), panel.grid.major.x=element_blank()) +
+        xlab("STORM EVENTS") + ylab("TOTAL DAMAGE IN BILLIONS") +
+        ggtitle("TOP 10 ECONOMIC LOSS OF WEATHER EVENTS IN THE\n US, 1996-2011") 
 ```
 
 ####*Which states are most affected?*
