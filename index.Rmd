@@ -156,7 +156,9 @@ econ[econ$CROPDMGEXP=="B", ]$CROPDMG <- econ[econ$CROPDMGEXP=="B", ]$CROPDMG * 1
 The total of the value of the damage to crops and properties aggregated by event type and the top 10 events is estimated below. 
 
 ```{r damage,results="asis"}
-Damages <- econ%>%group_by(EVENT.TYPE)%>%summarize(total.damage=sum(PROPDMG, CROPDMG)/1e+09)%>% mutate(prop.damage=total.damage/sum(total.damage))%>%
+Damages <- econ%>%group_by(EVENT.TYPE)%>%
+summarize(total.damage=sum(PROPDMG, CROPDMG)/1e+09)%>%
+mutate(prop.damage=total.damage/sum(total.damage))%>%
 arrange(desc(total.damage))
 print(xtable(Damages%>%slice(1:5)),type="html")
 ```
